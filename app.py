@@ -10,7 +10,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.feature_extraction.text import CountVectorizer
 from textblob import TextBlob
-from database import insert_feedback, fetch_feedback, clear_data
+from database import insert_feedback, insert_feedback_bulk, fetch_feedback, clear_data
 from openai import OpenAI
 
 # ---------- Chimera AI Client ----------
@@ -74,6 +74,9 @@ with tabs[2]:
         st.dataframe(df, use_container_width=True)
 
         df["sentiment"] = df["review"].apply(get_sentiment)
+
+        records_to_insert = list(zip(df["review"], df["sentiment"]))
+        insert_feedback_bulk(records_to_insert)
 
         for _, row in df.iterrows():
             insert_feedback(row["review"], row["sentiment"])
