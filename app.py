@@ -75,7 +75,7 @@ with tabs[2]:
 
         df["sentiment"] = df["review"].apply(get_sentiment)
 
-        records_to_insert = list(zip(df["review"], df["sentiment"]))
+        records_to_insert = zip(df["review"], df["sentiment"])
         insert_feedback_bulk(records_to_insert)
 
         for _, row in df.iterrows():
