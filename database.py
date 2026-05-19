@@ -14,19 +14,6 @@ CREATE TABLE IF NOT EXISTS feedback (
 conn.commit()
 
 
-def insert_feedback(review, sentiment):
-    cursor.execute(
-        "INSERT INTO feedback (review, sentiment) VALUES (?, ?)",
-        (review, sentiment)
-    )
-    conn.commit()
-
-
-def fetch_feedback():
-    cursor.execute("SELECT review, sentiment, created_at FROM feedback")
-    return cursor.fetchall()
-
-
 def insert_feedback_bulk(records):   
     try:
         cursor.executemany(
@@ -37,6 +24,12 @@ def insert_feedback_bulk(records):
     except Exception as e:
         conn.rollback()
         raise e
+
+
+def fetch_feedback():
+    cursor.execute("SELECT review, sentiment, created_at FROM feedback")
+    return cursor.fetchall()
+
 
 
 def clear_data():
