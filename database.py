@@ -27,6 +27,18 @@ def fetch_feedback():
     return cursor.fetchall()
 
 
+def insert_feedback_bulk(records):   
+    try:
+        cursor.executemany(
+            "INSERT INTO feedback (review, sentiment) VALUES (?, ?)",
+            records
+        )
+        conn.commit()
+    except Exception as e:
+        conn.rollback()
+        raise e
+
+
 def clear_data():
     cursor.execute("DELETE FROM feedback")
     conn.commit()
